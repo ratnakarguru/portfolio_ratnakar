@@ -438,7 +438,7 @@
   </div>
   <div class="hero-cta">
     <a href="#projects" class="btn btn-primary">View Projects →</a>
-    <a href="mailto:ratnakarguru16@gmail.com" class="btn btn-outline">Get In Touch</a>
+    <a href="https://wa.me/918455867050?text=Hi%20Ratnakar%2C%20I%20would%20like%20to%20discuss%20a%20project%20opportunity." class="btn btn-outline" id="getInTouch" aria-label="Open WhatsApp chat with +91 8455867050">Get In Touch</a>
   </div>
   <div class="scroll-hint">
     <div class="scroll-line"></div>
@@ -849,12 +849,24 @@ function measureRoles() {
 }
 function cycleRole() {
   const oldWord = slot.querySelector('.role-word.active');
-  if (oldWord) { oldWord.classList.remove('active'); oldWord.classList.add('exit'); oldWord.addEventListener('animationend', () => oldWord.remove(), { once: true }); }
+  if (oldWord) {
+    oldWord.classList.remove('active');
+    oldWord.classList.add('exit');
+    const removeOld = () => { if (oldWord && oldWord.parentNode) oldWord.parentNode.removeChild(oldWord); };
+    oldWord.addEventListener('animationend', removeOld, { once: true });
+    // Fallback removal in case animationend doesn't fire (reduced-motion, interruptions)
+    setTimeout(removeOld, 600);
+  }
   current = (current + 1) % roles.length;
   const newWord = document.createElement('span');
-  newWord.className = 'role-word'; newWord.textContent = roles[current];
+  newWord.className = 'role-word';
+  newWord.textContent = roles[current];
   slot.appendChild(newWord);
-  requestAnimationFrame(() => requestAnimationFrame(() => newWord.classList.add('active')));
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    // ensure only the new word becomes active
+    slot.querySelectorAll('.role-word.active').forEach(w => { if (w !== newWord) w.classList.remove('active'); });
+    newWord.classList.add('active');
+  }));
 }
 function startRoles() {
   measureRoles();
@@ -925,6 +937,16 @@ themeToggleEl.addEventListener('click', () => {
   localStorage.setItem('theme', next);
   updateThemeBtn();
 });
+
+/* Ensure WhatsApp link opens using same-tab navigation */
+(() => {
+  const waLink = document.getElementById('getInTouch');
+  if (!waLink) return;
+  waLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    window.location.href = this.getAttribute('href');
+  });
+})();
 </script>
 </body>
 </html>
