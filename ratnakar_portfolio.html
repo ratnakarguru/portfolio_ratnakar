@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ratnakar Guru — Developer Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Fraunces:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet">
+  <script>
+    const savedTheme = localStorage.getItem('theme') || 'system';
+    if (savedTheme !== 'system') document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --card: #16161f;
+      --border: #252535;
+      --accent: #7c6aff;
+      --accent-rgb: 124, 106, 255;
+      --accent2: #ff6a6a;
+      --accent3: #6affcb;
+      --accent3-rgb: 106, 255, 203;
+      --text: #ffffff;
+      --muted: #a0a0c0;
+      --bright: #ffffff;
+      --nav-bg: rgba(10,10,15,0.8);
+      /* JSON colors */
+      --j-key: #7c6aff;
+      --j-str: #6affcb;
+      --j-num: #ffb86c;
+      --j-bool: #ff79c6;
+      --j-null: #ff6a6a;
+      --j-bracket: #a0a0c0;
+      --j-bg: #0d0d14;
+      --j-border: #1e1e2e;
+      --j-line: #1a1a26;
+      --j-gutter: #252535;
+      --j-gutter-text: #3d3d55;
+      --term-green: #50fa7b;
+      --term-yellow: #f1fa8c;
+    }
+    [data-theme="light"] {
+      --bg: #f8f9fc;
+      --surface: #ffffff;
+      --card: #f0f2f8;
+      --border: #e2e8f0;
+      --accent: #5a48d6;
+      --accent-rgb: 90,72,214;
+      --accent2: #e53e3e;
+      --accent3: #049f70;
+      --accent3-rgb: 4,159,112;
+      --text: #1a202c;
+      --muted: #64748b;
+      --bright: #0f172a;
+      --nav-bg: rgba(248,249,252,0.8);
+      --j-key: #5a48d6;
+      --j-str: #049f70;
+      --j-num: #c07700;
+      --j-bool: #9d3b9d;
+      --j-null: #c53030;
+      --j-bracket: #64748b;
+      --j-bg: #f0f2f8;
+      --j-border: #e2e8f0;
+      --j-line: #eaecf4;
+      --j-gutter: #e2e8f0;
+      --j-gutter-text: #c0c8d8;
+      --term-green: #059669;
+      --term-yellow: #b45309;
+    }
+    [data-theme="dark"] {
+      --bg: #0a0a0f; --surface: #111118; --card: #16161f; --border: #252535;
+      --accent: #7c6aff; --accent-rgb: 124,106,255; --accent2: #ff6a6a;
+      --accent3: #6affcb; --accent3-rgb: 106,255,203; --text: #ffffff;
+      --muted: #a0a0c0; --bright: #ffffff; --nav-bg: rgba(10,10,15,0.8);
+      --j-key: #7c6aff; --j-str: #6affcb; --j-num: #ffb86c; --j-bool: #ff79c6;
+      --j-null: #ff6a6a; --j-bracket: #a0a0c0; --j-bg: #0d0d14;
+      --j-border: #1e1e2e; --j-line: #1a1a26; --j-gutter: #252535;
+      --j-gutter-text: #3d3d55; --term-green: #50fa7b; --term-yellow: #f1fa8c;
+    }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --bg:#f8f9fc;--surface:#ffffff;--card:#f0f2f8;--border:#e2e8f0;
+        --accent:#5a48d6;--accent-rgb:90,72,214;--accent2:#e53e3e;
+        --accent3:#049f70;--accent3-rgb:4,159,112;--text:#1a202c;
+        --muted:#64748b;--bright:#0f172a;--nav-bg:rgba(248,249,252,0.8);
+        --j-key:#5a48d6;--j-str:#049f70;--j-num:#c07700;--j-bool:#9d3b9d;
+        --j-null:#c53030;--j-bracket:#64748b;--j-bg:#f0f2f8;--j-border:#e2e8f0;
+        --j-line:#eaecf4;--j-gutter:#e2e8f0;--j-gutter-text:#c0c8d8;
+        --term-green:#059669;--term-yellow:#b45309;
+      }
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;overflow-x:hidden;cursor:none;}
+
+    .cursor{position:fixed;width:12px;height:12px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transition:transform .15s ease,background .2s ease;mix-blend-mode:difference;}
+    .cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--accent);border-radius:50%;pointer-events:none;z-index:9998;transition:transform .4s cubic-bezier(.22,1,.36,1),border-color .2s;mix-blend-mode:difference;}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:100;opacity:.35;}
+    body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(var(--accent-rgb),.04) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--accent-rgb),.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 4rem;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'Fraunces',serif;font-size:1.3rem;color:var(--bright);text-decoration:none;letter-spacing:-.02em;}
+    .nav-logo span{color:var(--accent);}
+    .nav-right{display:flex;align-items:center;gap:2.5rem;}
+    .nav-links{display:flex;gap:2.5rem;list-style:none;}
+    .theme-btn{background:transparent;border:1px solid var(--border);color:var(--text);padding:.4rem .8rem;border-radius:4px;font-family:'DM Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;cursor:none;transition:all .2s;min-width:70px;text-align:center;}
+    .theme-btn:hover{border-color:var(--accent);color:var(--accent);}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;transition:color .2s;position:relative;}
+    .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s ease;}
+    .nav-links a:hover{color:var(--bright);}
+    .nav-links a:hover::after{width:100%;}
+
+    section{position:relative;z-index:1;}
+
+    /* ── HERO ── */
+    #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 4rem 4rem;position:relative;overflow:hidden;}
+    .hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(var(--accent-rgb),.18) 0%,transparent 70%);top:10%;left:-10%;border-radius:50%;animation:glowFloat 8s ease-in-out infinite;pointer-events:none;}
+    .hero-glow2{position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(var(--accent3-rgb),.1) 0%,transparent 70%);bottom:10%;right:-5%;border-radius:50%;animation:glowFloat 10s ease-in-out infinite reverse;pointer-events:none;}
+    @keyframes glowFloat{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-40px) scale(1.1);}}
+
+    .hero-greeting{font-family:'DM Mono',monospace;font-size:clamp(.85rem,1.5vw,1rem);letter-spacing:.25em;text-transform:uppercase;color:var(--accent3);margin-bottom:2rem;opacity:0;animation:fadeUp .7s .1s forwards;display:flex;align-items:center;gap:.8rem;}
+    .greeting-line{display:inline-block;width:40px;height:1px;background:var(--accent3);}
+    .hero-intro{font-family:'Syne',sans-serif;font-weight:300;line-height:1.05;letter-spacing:-.03em;margin-bottom:1.5rem;}
+    .hero-hi-line{display:block;font-size:clamp(1.4rem,3vw,2rem);color:var(--muted);font-weight:600;letter-spacing:-.01em;overflow:hidden;white-space:nowrap;width:0;animation:typewriterHi .9s steps(10,end) .5s forwards;}
+    @keyframes typewriterHi{from{width:0;}to{width:8ch;}}
+    .hero-name-line{display:block;font-size:clamp(2.5rem,6vw,5.5rem);color:var(--bright);letter-spacing:-.04em;line-height:.92;}
+    .hero-name-line .char{display:inline-block;opacity:0;transform:translateY(60px) rotate(8deg);animation:charReveal .5s cubic-bezier(.22,1,.36,1) forwards;}
+    .hero-name-line .space{display:inline-block;width:.35em;}
+    @keyframes charReveal{to{opacity:1;transform:translateY(0) rotate(0deg);}}
+    .hero-role-line{display:flex;align-items:center;flex-wrap:wrap;gap:0 .3em;font-family:'Syne',sans-serif;font-size:clamp(1.4rem,3.5vw,2.8rem);color:var(--muted);font-weight:700;margin-top:.8rem;opacity:0;animation:fadeUp .6s 1.8s forwards;}
+    .role-prefix{color:var(--muted);}
+    .role-slot{position:relative;display:inline-block;overflow:hidden;height:1.2em;vertical-align:bottom;}
+    .role-word{display:block;position:absolute;left:0;top:0;white-space:nowrap;background:linear-gradient(135deg,var(--accent),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;transform:translateY(100%);opacity:0;transition:none;}
+    .role-word.active{animation:roleIn .55s cubic-bezier(.22,1,.36,1) forwards;}
+    .role-word.exit{animation:roleOut .45s cubic-bezier(.55,0,.1,1) forwards;}
+    @keyframes roleIn{from{transform:translateY(110%);opacity:0;}to{transform:translateY(0);opacity:1;}}
+    @keyframes roleOut{from{transform:translateY(0);opacity:1;}to{transform:translateY(-110%);opacity:0;}}
+    .type-cursor{display:inline-block;width:3px;height:.85em;background:var(--accent);margin-left:4px;vertical-align:middle;border-radius:1px;animation:blink 1s step-end infinite;}
+    @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+    .hero-cta{display:flex;gap:1.2rem;flex-wrap:wrap;opacity:0;animation:fadeUp .8s 2.2s forwards;}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 2rem;border-radius:2px;font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:all .25s ease;cursor:none;}
+    .btn-primary{background:var(--accent);color:var(--bg);border:1px solid var(--accent);}
+    .btn-primary:hover{background:transparent;color:var(--accent);transform:translateY(-2px);box-shadow:0 0 30px rgba(var(--accent-rgb),.4);}
+    .btn-outline{background:transparent;color:var(--text);border:1px solid var(--border);}
+    .btn-outline:hover{border-color:var(--accent3);color:var(--accent3);transform:translateY(-2px);}
+    .scroll-hint{position:absolute;bottom:2.5rem;left:4rem;display:flex;align-items:center;gap:1rem;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);opacity:0;animation:fadeUp .8s 1.2s forwards;}
+    .scroll-line{width:60px;height:1px;background:linear-gradient(90deg,var(--accent),transparent);animation:scrollPulse 2s ease-in-out infinite;}
+    @keyframes scrollPulse{0%,100%{opacity:.4;transform:scaleX(1);}50%{opacity:1;transform:scaleX(1.3);}}
+
+    /* ── MARQUEE ── */
+    .marquee-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.2rem 0;background:var(--surface);}
+    .marquee-track{display:flex;gap:3rem;animation:marquee 20s linear infinite;white-space:nowrap;}
+    .marquee-item{font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--border);display:flex;align-items:center;gap:1.5rem;flex-shrink:0;}
+    .marquee-item .dot{color:var(--accent);font-size:1.2rem;}
+    @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+    /* ── SECTION COMMONS ── */
+    .section-label{font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;}
+    .section-title{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--bright);margin-bottom:2rem;}
+    .section-title em{font-family:'Fraunces',serif;font-style:italic;color:var(--accent);font-weight:300;}
+
+    /* ════════════════════════════════
+       JSON VIEWER COMPONENT
+    ════════════════════════════════ */
+    .json-viewer {
+      background: var(--j-bg);
+      border: 1px solid var(--j-border);
+      border-radius: 4px;
+      overflow: hidden;
+      font-family: 'DM Mono', monospace;
+      font-size: .78rem;
+      line-height: 1.7;
+      position: relative;
+    }
+    .json-titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .55rem 1rem;
+      background: var(--j-gutter);
+      border-bottom: 1px solid var(--j-border);
+    }
+    .json-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .json-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .json-dot.red { background: #ff5f57; }
+    .json-dot.yellow { background: #febc2e; }
+    .json-dot.green { background: #28c840; }
+    .json-filename {
+      font-size: .65rem;
+      letter-spacing: .12em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .json-badge {
+      font-size: .6rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .2rem .55rem;
+      border: 1px solid rgba(var(--accent-rgb),.3);
+      color: var(--accent);
+      border-radius: 2px;
+    }
+    .json-body {
+      display: flex;
+    }
+    .json-gutter {
+      min-width: 42px;
+      padding: .8rem 0;
+      background: var(--j-gutter);
+      border-right: 1px solid var(--j-border);
+      text-align: right;
+      user-select: none;
+    }
+    .json-gutter span {
+      display: block;
+      padding: 0 .7rem;
+      font-size: .7rem;
+      color: var(--j-gutter-text);
+      line-height: 1.7;
+    }
+    .json-content {
+      flex: 1;
+      padding: .8rem 1.4rem;
+      overflow-x: auto;
+    }
+    .json-line {
+      display: block;
+      white-space: pre;
+    }
+    .json-line:hover {
+      background: var(--j-line);
+      border-radius: 2px;
+      margin: 0 -1.4rem;
+      padding: 0 1.4rem;
+    }
+    .jk { color: var(--j-key); }
+    .js { color: var(--j-str); }
+    .jn { color: var(--j-num); }
+    .jb { color: var(--j-bool); }
+    .jnu { color: var(--j-null); }
+    .jbr { color: var(--j-bracket); }
+    .jc { color: var(--muted); font-style: italic; opacity: .6; }
+    .json-cursor-blink {
+      display: inline-block;
+      width: 2px;
+      height: .85em;
+      background: var(--term-green);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    /* terminal prompt line */
+    .term-prompt {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .5rem 1rem;
+      background: var(--j-gutter);
+      border-top: 1px solid var(--j-border);
+      font-size: .68rem;
+      color: var(--muted);
+    }
+    .term-ps1 { color: var(--term-green); }
+    .term-cmd { color: var(--j-str); }
+    .term-path { color: var(--j-num); }
+
+    /* Collapsible rows */
+    .json-toggle {
+      cursor: none;
+      user-select: none;
+    }
+    .json-toggle .arrow {
+      display: inline-block;
+      width: .9rem;
+      transition: transform .2s;
+    }
+    .json-toggle.collapsed .arrow { transform: rotate(-90deg); }
+    .json-collapsible {
+      transition: opacity .2s;
+    }
+    .json-collapsible.hidden { display: none; }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 8rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .about-text p{font-size:.88rem;line-height:1.9;color:var(--muted);margin-bottom:1.2rem;}
+    .about-text p strong{color:var(--text);font-weight:400;}
+
+    /* ── EXPERIENCE ── */
+    #experience{padding:8rem 4rem;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+    .exp-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:5rem;}
+    .exp-stats{display:flex;gap:3rem;}
+    .stat-num{font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;color:var(--bright);line-height:1;}
+    .stat-num span{color:var(--accent);}
+    .stat-label{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+
+    /* experience as JSON */
+    .exp-json-list { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    /* ── SKILLS ── */
+    #skills{padding:8rem 4rem;}
+    .skills-json-wrap { margin-top: 4rem; }
+
+    /* ── PROJECTS ── */
+    #projects{padding:8rem 4rem;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:2px;margin-top:4rem;background:var(--border);border:1px solid var(--border);}
+    .project-card{background:var(--bg);padding:3rem;position:relative;overflow:hidden;transition:background .3s;opacity:0;transform:translateY(30px);transition:opacity .6s,transform .6s,background .3s;}
+    .project-card.visible{opacity:1;transform:translateY(0);}
+    .project-card:hover{background:var(--card);}
+    .project-num{font-family:'Syne',sans-serif;font-size:5rem;font-weight:800;color:rgba(var(--accent-rgb),.06);position:absolute;top:1rem;right:1.5rem;line-height:1;user-select:none;transition:color .3s;}
+    .project-card:hover .project-num{color:rgba(var(--accent-rgb),.12);}
+    .project-tech{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.8rem;}
+    .project-tech span{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent3);padding:.25rem .6rem;border:1px solid rgba(var(--accent3-rgb),.25);border-radius:2px;}
+    .project-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:var(--bright);margin-bottom:1rem;line-height:1.2;letter-spacing:-.02em;}
+    .project-desc{font-size:.82rem;line-height:1.8;color:var(--muted);}
+    .project-arrow{position:absolute;bottom:2.5rem;right:2.5rem;width:36px;height:36px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:1rem;transition:all .25s;border-radius:2px;}
+    .project-card:hover .project-arrow{border-color:var(--accent);color:var(--accent);transform:rotate(45deg);}
+
+    /* ── EDUCATION ── */
+    #education{padding:8rem 4rem;}
+    .edu-json-wrap { margin-top: 4rem; display: flex; flex-direction: column; gap: 1.5rem; }
+    .cert-strip{display:flex;gap:2px;background:var(--border);border:1px solid var(--border);margin-top:2px;}
+    .cert-item{flex:1;background:var(--bg);padding:2rem;font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:1rem;transition:background .3s;}
+    .cert-item:hover{background:var(--card);}
+    .cert-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+    /* ── FOOTER ── */
+    footer{padding:4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+    .footer-name{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--bright);letter-spacing:-.03em;}
+    .footer-name span{color:var(--accent);}
+    .footer-links{display:flex;gap:1.5rem;}
+    .footer-links a{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+    .footer-links a:hover{color:var(--accent3);}
+    .footer-copy{font-size:.65rem;color:var(--muted);letter-spacing:.1em;}
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes fadeLeft{from{opacity:0;transform:translateX(30px);}to{opacity:1;transform:translateX(0);}}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1);}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+    .exp-item{opacity:0;transform:translateY(24px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1);}
+    .exp-item.visible{opacity:1;transform:translateY(0);}
+
+    /* typing animation for hero JSON badge */
+    @keyframes typeIn { from { width: 0; } to { width: 100%; } }
+
+    @media (max-width: 900px) {
+      nav{padding:1.2rem 2rem;}
+      .nav-links{display:none;}
+      #hero{padding:8rem 2rem 4rem;}
+      #about{grid-template-columns:1fr;padding:5rem 2rem;gap:3rem;}
+      #experience,#skills,#projects,#education{padding:5rem 2rem;}
+      .exp-header{flex-direction:column;align-items:flex-start;gap:2rem;margin-bottom:3rem;}
+      .projects-grid{grid-template-columns:1fr;}
+      .cert-strip{flex-direction:column;}
+      footer{padding:2rem;flex-direction:column;gap:1rem;text-align:center;}
+      .footer-links{flex-wrap:wrap;justify-content:center;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Navigation -->
+<nav>
+  <a href="#hero" class="nav-logo">RG<span>.</span></a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+    </ul>
+    <button id="themeToggle" class="theme-btn">System</button>
+  </div>
+</nav>
+
+<!-- Marquee -->
+<div class="marquee-wrap" style="position:fixed;top:64px;left:0;right:0;z-index:400;">
+  <div class="marquee-track">
+    <span class="marquee-item">Python <span class="dot">✦</span></span>
+    <span class="marquee-item">Django <span class="dot">✦</span></span>
+    <span class="marquee-item">PHP <span class="dot">✦</span></span>
+    <span class="marquee-item">React.js <span class="dot">✦</span></span>
+    <span class="marquee-item">MySQL <span class="dot">✦</span></span>
+    <span class="marquee-item">Full-Stack Dev <span class="dot">✦</span></span>
+    <span class="marquee-item">RESTful APIs <span class="dot">✦</span></span>
+    <span class="marquee-item">Agile <span class="dot">✦</span></span>
+    <span class="marquee-item">Power BI <span class="dot">✦</span></span>
+    <span class="marquee-item">Python <span class="dot">✦</span></span>
+    <span class="marquee-item">Django <span class="dot">✦</span></span>
+    <span class="marquee-item">PHP <span class="dot">✦</span></span>
+    <span class="marquee-item">React.js <span class="dot">✦</span></span>
+    <span class="marquee-item">MySQL <span class="dot">✦</span></span>
+    <span class="marquee-item">Full-Stack Dev <span class="dot">✦</span></span>
+    <span class="marquee-item">RESTful APIs <span class="dot">✦</span></span>
+    <span class="marquee-item">Agile <span class="dot">✦</span></span>
+    <span class="marquee-item">Power BI <span class="dot">✦</span></span>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-greeting">
+    <span class="greeting-line"></span>
+    Available for opportunities
+    <span class="greeting-line"></span>
+  </div>
+  <div class="hero-intro">
+    <span class="hero-hi-line">Hi, I'm</span>
+    <span class="hero-name-line" id="heroName"></span>
+    <span class="hero-role-line" id="heroRoleLine" style="opacity:0;animation:fadeUp .6s 1.8s forwards;">
+      <span class="role-prefix">and I'm a&nbsp;</span>
+      <span class="role-slot" id="roleSlot">
+        <span class="role-word" id="roleWord">Python Developer</span>
+      </span>
+      <span class="type-cursor"></span>
+    </span>
+  </div>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View Projects →</a>
+    <a href="mailto:ratnakarguru16@gmail.com" class="btn btn-outline">Get In Touch</a>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll to explore</span>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="about-text reveal">
+    <div class="section-label">// 01 — About</div>
+    <h2 class="section-title">Building things for the <em>web</em> & beyond</h2>
+    <p>I'm a <strong>B.Tech Computer Science graduate</strong> from Gandhi Institute For Technology, Bhubaneswar with a passion for building robust, user-friendly digital systems.</p>
+    <p>My stack spans <strong>Python, Django, PHP, Laravel, React.js</strong>, and MySQL — I enjoy working across the full stack, from designing relational database schemas to crafting responsive frontends.</p>
+    <p>I've worked on real-world government-scale websites, built end-to-end web applications, and consistently followed agile methodologies in professional settings.</p>
+  </div>
+
+  <!-- JSON contact card -->
+  <div class="reveal">
+    <div class="json-viewer">
+      <div class="json-titlebar">
+        <div class="json-dots">
+          <div class="json-dot red"></div>
+          <div class="json-dot yellow"></div>
+          <div class="json-dot green"></div>
+        </div>
+        <div class="json-filename">developer.json</div>
+        <div class="json-badge">JSON</div>
+      </div>
+      <div class="json-body">
+        <div class="json-gutter" id="aboutGutter"></div>
+        <div class="json-content">
+          <span class="json-line"><span class="jbr">{</span></span>
+          <span class="json-line">  <span class="jk">"name"</span><span class="jbr">:</span> <span class="js">"Ratnakar Guru"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"role"</span><span class="jbr">:</span> <span class="js">"Full-Stack Developer"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"location"</span><span class="jbr">:</span> <span class="js">"Khordha, Odisha, India"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"available"</span><span class="jbr">:</span> <span class="jb">true</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"contact"</span><span class="jbr">:</span> <span class="jbr">{</span></span>
+          <span class="json-line">    <span class="jk">"email"</span><span class="jbr">:</span> <span class="js">"ratnakarguru16@gmail.com"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"phone"</span><span class="jbr">:</span> <span class="js">"+91 8455867050"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"linkedin"</span><span class="jbr">:</span> <span class="js">"ratnakar-guru-290a5023b"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"github"</span><span class="jbr">:</span> <span class="js">"ratnakarguru"</span></span>
+          <span class="json-line">  <span class="jbr">},</span></span>
+          <span class="json-line">  <span class="jk">"experience_years"</span><span class="jbr">:</span> <span class="jn">1</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"open_to_remote"</span><span class="jbr">:</span> <span class="jb">true</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"status"</span><span class="jbr">:</span> <span class="js">"seeking full-time role"</span></span>
+          <span class="json-line"><span class="jbr">}</span><span class="json-cursor-blink"></span></span>
+        </div>
+      </div>
+      <div class="term-prompt">
+        <span class="term-ps1">❯</span>
+        <span class="term-path">~/portfolio</span>
+        <span class="term-cmd">cat developer.json | python -m json.tool</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="exp-header">
+    <div>
+      <div class="section-label">// 02 — Experience</div>
+      <h2 class="section-title">Where I've <em>worked</em></h2>
+    </div>
+    <div class="exp-stats reveal">
+      <div class="stat"><div class="stat-num">3<span>+</span></div><div class="stat-label">Internships</div></div>
+      <div class="stat"><div class="stat-num">7<span>+</span></div><div class="stat-label">Technologies</div></div>
+      <div class="stat"><div class="stat-num">3<span>+</span></div><div class="stat-label">Projects Built</div></div>
+    </div>
+  </div>
+
+  <div class="exp-json-list">
+
+    <!-- Job 1 -->
+    <div class="exp-item json-viewer">
+      <div class="json-titlebar">
+        <div class="json-dots"><div class="json-dot red"></div><div class="json-dot yellow"></div><div class="json-dot green"></div></div>
+        <div class="json-filename">experience[0].json</div>
+        <div class="json-badge">CURRENT</div>
+      </div>
+      <div class="json-body">
+        <div class="json-gutter" id="exp0Gutter"></div>
+        <div class="json-content">
+          <span class="json-line"><span class="jbr">{</span></span>
+          <span class="json-line">  <span class="jk">"role"</span><span class="jbr">:</span> <span class="js">"Junior Developer Intern"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"company"</span><span class="jbr">:</span> <span class="js">"Orisys InfoTech Pvt. Ltd."</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"location"</span><span class="jbr">:</span> <span class="js">"Bhubaneswar"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"period"</span><span class="jbr">:</span> <span class="js">"Apr 2025 — Mar 2026"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"stack"</span><span class="jbr">:</span> <span class="jbr">[</span><span class="js">"PHP"</span><span class="jbr">,</span> <span class="js">"jQuery"</span><span class="jbr">,</span> <span class="js">"SQL"</span><span class="jbr">],</span></span>
+          <span class="json-line">  <span class="jk">"highlights"</span><span class="jbr">:</span> <span class="jbr">[</span></span>
+          <span class="json-line">    <span class="js">"Maintained OFDC & MKCG government websites serving thousands"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="js">"Optimized SQL queries, measurable reduction in page load time"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="js">"Fixed critical UI bugs, collaborated on feature enhancements"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="js">"Agile sprints, code reviews, and sprint planning sessions"</span></span>
+          <span class="json-line">  <span class="jbr">]</span></span>
+          <span class="json-line"><span class="jbr">}</span></span>
+        </div>
+      </div>
+      <div class="term-prompt">
+        <span class="term-ps1">❯</span>
+        <span class="term-path">~/experience</span>
+        <span class="term-cmd">node —e "console.log(jobs[0].highlights.length + ' achievements')"</span>
+      </div>
+    </div>
+
+    <!-- Job 2 -->
+    <div class="exp-item json-viewer">
+      <div class="json-titlebar">
+        <div class="json-dots"><div class="json-dot red"></div><div class="json-dot yellow"></div><div class="json-dot green"></div></div>
+        <div class="json-filename">experience[1].json</div>
+        <div class="json-badge">JSON</div>
+      </div>
+      <div class="json-body">
+        <div class="json-gutter" id="exp1Gutter"></div>
+        <div class="json-content">
+          <span class="json-line"><span class="jbr">{</span></span>
+          <span class="json-line">  <span class="jk">"role"</span><span class="jbr">:</span> <span class="js">"Python Trainee"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"company"</span><span class="jbr">:</span> <span class="js">"Lakshay Institute of Technology"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"location"</span><span class="jbr">:</span> <span class="js">"Bhubaneswar"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"period"</span><span class="jbr">:</span> <span class="js">"Jun 2024 — Nov 2024"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"stack"</span><span class="jbr">:</span> <span class="jbr">[</span><span class="js">"Python"</span><span class="jbr">,</span> <span class="js">"MySQL"</span><span class="jbr">,</span> <span class="js">"Tkinter"</span><span class="jbr">],</span></span>
+          <span class="json-line">  <span class="jk">"highlights"</span><span class="jbr">:</span> <span class="jbr">[</span></span>
+          <span class="json-line">    <span class="js">"Built Student DB Management System with full CRUD"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="js">"Designed Tkinter GUI improving system usability"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="js">"Deepened Python, database design & data management skills"</span></span>
+          <span class="json-line">  <span class="jbr">]</span></span>
+          <span class="json-line"><span class="jbr">}</span></span>
+        </div>
+      </div>
+      <div class="term-prompt">
+        <span class="term-ps1">❯</span>
+        <span class="term-path">~/experience</span>
+        <span class="term-cmd">python3 parse_experience.py —index 1</span>
+      </div>
+    </div>
+
+    <!-- Job 3 -->
+    <div class="exp-item json-viewer">
+      <div class="json-titlebar">
+        <div class="json-dots"><div class="json-dot red"></div><div class="json-dot yellow"></div><div class="json-dot green"></div></div>
+        <div class="json-filename">experience[2].json</div>
+        <div class="json-badge">JSON</div>
+      </div>
+      <div class="json-body">
+        <div class="json-gutter" id="exp2Gutter"></div>
+        <div class="json-content">
+          <span class="json-line"><span class="jbr">{</span></span>
+          <span class="json-line">  <span class="jk">"role"</span><span class="jbr">:</span> <span class="js">"Web Development Intern"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"company"</span><span class="jbr">:</span> <span class="js">"Aspire InfoLab"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"location"</span><span class="jbr">:</span> <span class="js">"Hyderabad"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"period"</span><span class="jbr">:</span> <span class="js">"Sep 2023 — Oct 2023"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"stack"</span><span class="jbr">:</span> <span class="jbr">[</span><span class="js">"HTML"</span><span class="jbr">,</span> <span class="js">"CSS"</span><span class="jbr">,</span> <span class="js">"MS Excel"</span><span class="jbr">],</span></span>
+          <span class="json-line">  <span class="jk">"highlights"</span><span class="jbr">:</span> <span class="jbr">[</span></span>
+          <span class="json-line">    <span class="js">"Built responsive HTML/CSS blogs and portfolio sites"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="js">"QA testing for Happily Health & Spotify apps"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="js">"Logged bugs, created 25 comprehensive test cases in Excel"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="js">"Improved defect tracking and reporting accuracy"</span></span>
+          <span class="json-line">  <span class="jbr">]</span></span>
+          <span class="json-line"><span class="jbr">}</span></span>
+        </div>
+      </div>
+      <div class="term-prompt">
+        <span class="term-ps1">❯</span>
+        <span class="term-path">~/experience</span>
+        <span class="term-cmd">python3 parse_experience.py —index 2</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="section-label">// 03 — Skills</div>
+  <h2 class="section-title">My technical <em>toolkit</em></h2>
+
+  <div class="skills-json-wrap">
+    <div class="json-viewer reveal">
+      <div class="json-titlebar">
+        <div class="json-dots"><div class="json-dot red"></div><div class="json-dot yellow"></div><div class="json-dot green"></div></div>
+        <div class="json-filename">skills.json</div>
+        <div class="json-badge">JSON</div>
+      </div>
+      <div class="json-body">
+        <div class="json-gutter" id="skillsGutter"></div>
+        <div class="json-content">
+          <span class="json-line"><span class="jbr">{</span></span>
+          <span class="json-line">  <span class="jk">"languages"</span><span class="jbr">:</span> <span class="jbr">[</span></span>
+          <span class="json-line">    <span class="js">"Python"</span><span class="jbr">,</span> <span class="js">"PHP"</span><span class="jbr">,</span> <span class="js">"JavaScript"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="js">"HTML5"</span><span class="jbr">,</span> <span class="js">"CSS3"</span><span class="jbr">,</span> <span class="js">"SQL"</span></span>
+          <span class="json-line">  <span class="jbr">],</span></span>
+          <span class="json-line">  <span class="jk">"frameworks"</span><span class="jbr">:</span> <span class="jbr">[</span></span>
+          <span class="json-line">    <span class="js">"Django"</span><span class="jbr">,</span> <span class="js">"Laravel"</span><span class="jbr">,</span> <span class="js">"Flask"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="js">"React.js"</span><span class="jbr">,</span> <span class="js">"jQuery"</span><span class="jbr">,</span> <span class="js">"Tkinter"</span></span>
+          <span class="json-line">  <span class="jbr">],</span></span>
+          <span class="json-line">  <span class="jk">"databases"</span><span class="jbr">:</span> <span class="jbr">{</span></span>
+          <span class="json-line">    <span class="jk">"primary"</span><span class="jbr">:</span> <span class="js">"MySQL"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"skills"</span><span class="jbr">:</span> <span class="jbr">[</span><span class="js">"Query Optimization"</span><span class="jbr">,</span> <span class="js">"Schema Design"</span><span class="jbr">]</span></span>
+          <span class="json-line">  <span class="jbr">},</span></span>
+          <span class="json-line">  <span class="jk">"tools"</span><span class="jbr">:</span> <span class="jbr">[</span><span class="js">"Git"</span><span class="jbr">,</span> <span class="js">"GitHub"</span><span class="jbr">,</span> <span class="js">"VS Code"</span><span class="jbr">,</span> <span class="js">"XAMPP"</span><span class="jbr">,</span> <span class="js">"Power BI"</span><span class="jbr">],</span></span>
+          <span class="json-line">  <span class="jk">"concepts"</span><span class="jbr">:</span> <span class="jbr">[</span></span>
+          <span class="json-line">    <span class="js">"OOP"</span><span class="jbr">,</span> <span class="js">"RESTful APIs"</span><span class="jbr">,</span> <span class="js">"SDLC"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="js">"Agile"</span><span class="jbr">,</span> <span class="js">"Software Testing"</span><span class="jbr">,</span> <span class="js">"Data Analysis"</span></span>
+          <span class="json-line">  <span class="jbr">],</span></span>
+          <!-- <span class="json-line">  <span class="jk">"proficiency"</span><span class="jbr">:</span> <span class="jbr">{</span></span>
+          <span class="json-line">    <span class="jk">"Python"</span><span class="jbr">:</span> <span class="jn">90</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"PHP"</span><span class="jbr">:</span> <span class="jn">80</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"Django"</span><span class="jbr">:</span> <span class="jn">85</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"MySQL"</span><span class="jbr">:</span> <span class="jn">80</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"React"</span><span class="jbr">:</span> <span class="jn">65</span></span>
+          <span class="json-line">  <span class="jbr">}</span></span> -->
+          <span class="json-line"><span class="jbr">}</span><span class="json-cursor-blink"></span></span>
+        </div>
+      </div>
+      <div class="term-prompt">
+        <span class="term-ps1">❯</span>
+        <span class="term-path">~/skills</span>
+        <span class="term-cmd">jq '.proficiency | to_entries | sort_by(-.value)' skills.json</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="section-label">// 04 — Projects</div>
+  <h2 class="section-title">Things I've <em>built</em></h2>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-num">01</div>
+      <div class="project-tech"><span>PHP</span><span>MySQL</span><span>XAMPP</span><span>HTML/CSS</span></div>
+      <h3 class="project-title">Desttrip — Travel Destination Management System</h3>
+      <p class="project-desc">A full-stack travel website with user authentication, destination browsing, itinerary management, and review features. Designed relational database schema for users, destinations, bookings, and reviews with an admin panel.</p>
+      <div class="project-arrow">↗</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">02</div>
+      <div class="project-tech"><span>Python</span><span>Django</span><span>MySQL</span><span>HTML/CSS</span></div>
+      <h3 class="project-title">URL Shortener Platform</h3>
+      <p class="project-desc">An end-to-end URL shortening web application enabling users to generate custom short links and track real-time usage statistics. Implemented MVC architecture, URL routing, database models, and a live analytics dashboard.</p>
+      <div class="project-arrow">↗</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">03</div>
+      <div class="project-tech"><span>Python</span><span>MySQL</span><span>Tkinter</span></div>
+      <h3 class="project-title">Student Database Management System</h3>
+      <p class="project-desc">A robust desktop application supporting full CRUD operations on student records. Built with a user-friendly GUI in Tkinter and backed by MySQL, improving data management workflows for educational use cases.</p>
+      <div class="project-arrow">↗</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── EDUCATION ── -->
+<section id="education">
+  <div class="section-label">// 05 — Education</div>
+  <h2 class="section-title">Academic <em>background</em></h2>
+
+  <div class="edu-json-wrap">
+    <div class="exp-item json-viewer">
+      <div class="json-titlebar">
+        <div class="json-dots"><div class="json-dot red"></div><div class="json-dot yellow"></div><div class="json-dot green"></div></div>
+        <div class="json-filename">education[0].json</div>
+        <div class="json-badge">JSON</div>
+      </div>
+      <div class="json-body">
+        <div class="json-gutter" id="edu0Gutter"></div>
+        <div class="json-content">
+          <span class="json-line"><span class="jbr">{</span></span>
+          <span class="json-line">  <span class="jk">"degree"</span><span class="jbr">:</span> <span class="js">"B.Tech in Computer Science & Engineering"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"institution"</span><span class="jbr">:</span> <span class="js">"Gandhi Institute For Technology, Bhubaneswar"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"university"</span><span class="jbr">:</span> <span class="js">"BPUT"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"period"</span><span class="jbr">:</span> <span class="js">"Nov 2021 — Jun 2025"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"cgpa"</span><span class="jbr">:</span> <span class="jn">7.68</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"max_cgpa"</span><span class="jbr">:</span> <span class="jn">10</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"graduated"</span><span class="jbr">:</span> <span class="jb">true</span></span>
+          <span class="json-line"><span class="jbr">}</span></span>
+        </div>
+      </div>
+      <div class="term-prompt">
+        <span class="term-ps1">❯</span>
+        <span class="term-path">~/education</span>
+        <span class="term-cmd">jq '.cgpa / .max_cgpa * 100 | floor | tostring + "% score"' education[0].json</span>
+      </div>
+    </div>
+
+    <div class="exp-item json-viewer">
+      <div class="json-titlebar">
+        <div class="json-dots"><div class="json-dot red"></div><div class="json-dot yellow"></div><div class="json-dot green"></div></div>
+        <div class="json-filename">education[1].json</div>
+        <div class="json-badge">JSON</div>
+      </div>
+      <div class="json-body">
+        <div class="json-gutter" id="edu1Gutter"></div>
+        <div class="json-content">
+          <span class="json-line"><span class="jbr">{</span></span>
+          <span class="json-line">  <span class="jk">"degree"</span><span class="jbr">:</span> <span class="js">"Higher Secondary Certificate (HSC — Science)"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"institution"</span><span class="jbr">:</span> <span class="js">"Nachuni Higher Secondary School"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"location"</span><span class="jbr">:</span> <span class="js">"Khordha, Odisha"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"period"</span><span class="jbr">:</span> <span class="js">"2019 — 2021"</span><span class="jbr">,</span></span>
+          <span class="json-line">  <span class="jk">"stream"</span><span class="jbr">:</span> <span class="js">"Science"</span></span>
+          <span class="json-line"><span class="jbr">}</span></span>
+        </div>
+      </div>
+      <div class="term-prompt">
+        <span class="term-ps1">❯</span>
+        <span class="term-path">~/education</span>
+        <span class="term-cmd">cat education[1].json | jq '.degree'</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certifications JSON -->
+  <div style="margin-top:4rem;">
+    <div class="section-label" style="margin-bottom:1.5rem;">// Certifications</div>
+    <div class="json-viewer reveal">
+      <div class="json-titlebar">
+        <div class="json-dots"><div class="json-dot red"></div><div class="json-dot yellow"></div><div class="json-dot green"></div></div>
+        <div class="json-filename">certifications.json</div>
+        <div class="json-badge">JSON</div>
+      </div>
+      <div class="json-body">
+        <div class="json-gutter" id="certGutter"></div>
+        <div class="json-content">
+          <span class="json-line"><span class="jbr">[</span></span>
+          <span class="json-line">  <span class="jbr">{</span></span>
+          <span class="json-line">    <span class="jk">"title"</span><span class="jbr">:</span> <span class="js">"HTML and CSS"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"issuer"</span><span class="jbr">:</span> <span class="js">"Infosys Springboard"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"verified"</span><span class="jbr">:</span> <span class="jb">true</span></span>
+          <span class="json-line">  <span class="jbr">},</span></span>
+          <span class="json-line">  <span class="jbr">{</span></span>
+          <span class="json-line">    <span class="jk">"title"</span><span class="jbr">:</span> <span class="js">"Manual Software Testing"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"issuer"</span><span class="jbr">:</span> <span class="js">"Infosys Springboard"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"verified"</span><span class="jbr">:</span> <span class="jb">true</span></span>
+          <span class="json-line">  <span class="jbr">},</span></span>
+          <span class="json-line">  <span class="jbr">{</span></span>
+          <span class="json-line">    <span class="jk">"title"</span><span class="jbr">:</span> <span class="js">"Python & MySQL Internship"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"issuer"</span><span class="jbr">:</span> <span class="js">"Lakshay Institute of Technology"</span><span class="jbr">,</span></span>
+          <span class="json-line">    <span class="jk">"verified"</span><span class="jbr">:</span> <span class="jb">true</span></span>
+          <span class="json-line">  <span class="jbr">}</span></span>
+          <span class="json-line"><span class="jbr">]</span><span class="json-cursor-blink"></span></span>
+        </div>
+      </div>
+      <div class="term-prompt">
+        <span class="term-ps1">❯</span>
+        <span class="term-path">~/certifications</span>
+        <span class="term-cmd">jq '[.[] | select(.verified == true)] | length | tostring + " verified certs"' certifications.json</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-name">RG<span>.</span></div>
+  <div class="footer-links">
+    <a href="mailto:ratnakarguru16@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/ratnakar-guru-290a5023b" target="_blank">LinkedIn</a>
+    <a href="https://github.com/ratnakarguru" target="_blank">GitHub</a>
+  </div>
+  <div class="footer-copy">© 2026 Ratnakar Guru</div>
+</footer>
+
+<script>
+/* ── Custom Cursor ── */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  cursor.style.left = mx - 6 + 'px'; cursor.style.top = my - 6 + 'px';
+  rx += (mx - rx) * .12; ry += (my - ry) * .12;
+  ring.style.left = rx - 18 + 'px'; ring.style.top = ry - 18 + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2)'; ring.style.transform = 'scale(1.5)'; ring.style.borderColor = 'var(--accent3)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; ring.style.transform = 'scale(1)'; ring.style.borderColor = 'var(--accent)'; });
+});
+
+/* ── Hero Name Letter Reveal ── */
+const heroNameEl = document.getElementById('heroName');
+const fullName = 'RATNAKAR GURU';
+let delay = 1.2;
+for (let i = 0; i < fullName.length; i++) {
+  const ch = fullName[i];
+  if (ch === ' ') { const sp = document.createElement('span'); sp.className = 'space'; heroNameEl.appendChild(sp); }
+  else { const span = document.createElement('span'); span.className = 'char'; span.textContent = ch; span.style.animationDelay = delay + 's'; heroNameEl.appendChild(span); delay += .055; }
+}
+
+/* ── Role Rotator ── */
+const roles = ['Python Developer','Full-Stack Engineer','Web Developer'];
+const slot = document.getElementById('roleSlot');
+let current = 0;
+function measureRoles() {
+  const tmp = document.createElement('span');
+  tmp.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;';
+  slot.appendChild(tmp);
+  let maxW = 0;
+  roles.forEach(r => { tmp.textContent = r; maxW = Math.max(maxW, tmp.offsetWidth); });
+  slot.removeChild(tmp);
+  slot.style.width = maxW + 5 + 'px';
+}
+function cycleRole() {
+  const oldWord = slot.querySelector('.role-word.active');
+  if (oldWord) { oldWord.classList.remove('active'); oldWord.classList.add('exit'); oldWord.addEventListener('animationend', () => oldWord.remove(), { once: true }); }
+  current = (current + 1) % roles.length;
+  const newWord = document.createElement('span');
+  newWord.className = 'role-word'; newWord.textContent = roles[current];
+  slot.appendChild(newWord);
+  requestAnimationFrame(() => requestAnimationFrame(() => newWord.classList.add('active')));
+}
+setTimeout(() => {
+  measureRoles();
+  const first = slot.querySelector('.role-word');
+  if (first) first.classList.add('active');
+  setInterval(cycleRole, 2800);
+}, 1900);
+
+/* ── Auto-generate line gutters ── */
+function buildGutter(gutterEl, contentEl) {
+  if (!gutterEl || !contentEl) return;
+  const lines = contentEl.querySelectorAll('.json-line');
+  lines.forEach((_, i) => {
+    const s = document.createElement('span');
+    s.textContent = i + 1;
+    gutterEl.appendChild(s);
+  });
+}
+buildGutter(document.getElementById('aboutGutter'), document.querySelector('#about .json-content'));
+document.querySelectorAll('.exp-item .json-viewer, .exp-json-list .json-viewer').forEach((viewer, idx) => {
+  const gutter = viewer.querySelector('.json-gutter');
+  const content = viewer.querySelector('.json-content');
+  buildGutter(gutter, content);
+});
+['skillsGutter','certGutter','edu0Gutter','edu1Gutter'].forEach(id => {
+  const g = document.getElementById(id);
+  if (!g) return;
+  const viewer = g.closest('.json-viewer');
+  if (!viewer) return;
+  buildGutter(g, viewer.querySelector('.json-content'));
+});
+
+/* ── Scroll Reveal ── */
+const reveals = document.querySelectorAll('.exp-item, .project-card, .reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 80);
+  });
+}, { threshold: .1 });
+reveals.forEach(el => observer.observe(el));
+
+/* ── Nav Active ── */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--bright)' : ''; });
+});
+
+/* ── Theme Toggle ── */
+const themeToggleEl = document.getElementById('themeToggle');
+const themeModes = ['system','light','dark'];
+let curThemeIdx = themeModes.indexOf(localStorage.getItem('theme') || 'system');
+if (curThemeIdx === -1) curThemeIdx = 0;
+function updateThemeBtn() { themeToggleEl.textContent = themeModes[curThemeIdx]; }
+updateThemeBtn();
+themeToggleEl.addEventListener('click', () => {
+  curThemeIdx = (curThemeIdx + 1) % themeModes.length;
+  const next = themeModes[curThemeIdx];
+  if (next === 'system') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  updateThemeBtn();
+});
+</script>
+</body>
+</html>
