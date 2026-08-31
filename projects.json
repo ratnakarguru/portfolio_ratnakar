@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Desttrip — Travel Destination Management System",
+    "repository": "https://github.com/ratnakarguru/desttrip",
+    "branch": "main",
+    "technologies": ["PHP", "MySQL", "XAMPP", "HTML/CSS"],
+    "description": "A full-stack travel website with user authentication, destination browsing, itinerary management, and review features."
+  },
+  {
+    "id": 2,
+    "title": "URL Shortener Platform",
+    "repository": "https://github.com/ratnakarguru/url-shortener",
+    "branch": "main",
+    "technologies": ["Python", "Django", "MySQL", "HTML/CSS"],
+    "description": "An end-to-end URL shortening web application enabling users to generate custom short links and track real-time usage statistics."
+  },
+  {
+    "id": 3,
+    "title": "Student Database Management System",
+    "repository": "https://github.com/ratnakarguru/student-db-system",
+    "branch": "main",
+    "technologies": ["Python", "MySQL", "Tkinter"],
+    "description": "A robust desktop application supporting full CRUD operations on student records with a user-friendly GUI."
+  }
+]
